@@ -33,7 +33,7 @@ int main(int n_arg, char *arg[]) {
     		bytes1 = read(fd1, &buff1, 1);
     		bytes2 = read(fd2, &buff2, 1);
 
-    		//Comprovar si hi ha hagut errors en la lectura
+		//Comprovar si hi ha hagut errors en la lectura
     		if (bytes1 == -1) {
         	    perror("Error al llegir el fitxer1");
         	    close(fd1); //Es tanquen els dos arxius després de donar la sortida de l'error.
@@ -48,6 +48,11 @@ int main(int n_arg, char *arg[]) {
         	    return -1;
     		}
 
+		//Actualitzar la posició del byte i la línia en cas de que s'acabi aquesta.
+                if (buff1 == '\n' || buff2 == '\n') {
+                   linia++;
+                }
+
     		//Si arribem al final dels dos fitxers, sortim del bucle. Determinem que no hem trobat cap diferència.
     		if (bytes1 == 0 && bytes2 == 0) {
         	    break;
@@ -61,11 +66,7 @@ int main(int n_arg, char *arg[]) {
         	    return 0;
     		}
 
-    		//Actualitzar la posició del byte i la línia en cas de que s'acabi aquesta.
-    		if (buff1 == '\n' || buff2 == '\n') {
- 		   linia++;
-		}
-    		byte_posicio++;
+		byte_posicio++;
 	}
 
 	//Si arribem aquí, els fitxers són iguals
