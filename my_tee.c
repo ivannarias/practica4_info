@@ -19,7 +19,7 @@ const char *arxiu = nom_arxiu(n_arg, arg); //Assignar un nom constant al nostre 
 int fd = open(arxiu, O_CREAT | O_WRONLY | O_TRUNC, 0644); 	//Obrim un arxiu amb el nom de l'arxiu que volem, i li donem els permissos
 								//Les constants predefinides són codis numèrics que es refereixen al que volem.
 if (fd == -1) {							//O_CREAT --> Crea el fitxer en cas que aquest no existeixi.
-        perror("Error al crear el archivo\n");			//O_WRONLI --> Obre l'arxiu només en mode escriptura.
+        perror("Error al crear l'arxiu");			//O_WRONLI --> Obre l'arxiu només en mode escriptura.
         return -1;						//O_TRUNC --> Si l'arxiu ja existeix, esborra tot el contingut (ho deixa buit).
 }
 
@@ -32,19 +32,19 @@ int bytes_llegits;	//Creem una variable int per controlar els errors de les func
 										//EXPLICACIÓ WHILE:
 while	((bytes_llegits = read(STDIN_FILENO, buffer, 1)) > 0) {			// Mentre no hi hagi errors (read retorna -1) continuem llegint.
 	if (bytes_llegits == -1){						// "read" llegeix de l'entrada estàndard (descriptor 0).
-            perror("Error al llegir l'entrada\n");				// El primer paràmetre és "STDIN_FILENO" (entrada estàndard).
+            perror("Error al llegir l'entrada");				// El primer paràmetre és "STDIN_FILENO" (entrada estàndard).
             close(fd);								// El segon és "buffer", on es guarda el caràcter llegit.
             return -1;								// El tercer és 1, indicant que volem llegir un sol byte.
 	}
 
 	if (write(fd, buffer, 1) == -1) { 		// Controlem en cas que hi hagi algun error al escriure ("write" retorna -1 en cas d'error)
-            perror("Error al escriure al fitxer\n");
+            perror("Error al escriure al fitxer");
             close(fd);
             return -1;
         }
 						     	// Controlem en cas que hi hagi algun error al escriure a la consola.
         if (write(STDOUT_FILENO, buffer, 1) == -1) { 	// "STDOUT_FILENO" és la sortida estàndard (descriptor 1).
-            perror("Error al escriure a la consola\n");
+            perror("Error al escriure a la consola");
             close(fd);
             return -1;
 	}
